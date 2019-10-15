@@ -1,0 +1,9 @@
+Package: com.cfy.hook
+Name: kaixin_xl_pojie
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: cfy
+Author: cfy
+Section: Tweaks
