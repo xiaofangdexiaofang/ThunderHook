@@ -4,7 +4,7 @@ thunder修改业务逻辑
 ##addcfyController
 
 ### category
-保护数组和字典的安全相关的类
+保护数组和字典的安全相关的类,在开发的过程中发现迅雷自身的代码未做处理，故添加分类放置崩溃
 
 ### PYSearch
 一款不错的搜索控制器
@@ -34,9 +34,14 @@ fishhook可以在模拟器和设备上的iOS上运行的Mach-O二进制文件中
 
 	tweak文件中引用图片
 	#define CFYFile(path) @"/Library/PreferenceLoader/Preferences/cfyxunlei/" #path
+	
+## ZJHURLProtocol
+监控http层面的网络请求
+
+    https://github.com/ZhangJingHao/ZJHURLProtocol
 
 ## Makefile
-编译的相关配置
+编译的相关配置，这里很多的设置都是根据编译出错的信息去解决掉的
 
     设备的IP地址
     export THEOS_DEVICE_IP = 192.168.0.152
@@ -63,7 +68,31 @@ fishhook可以在模拟器和设备上的iOS上运行的Mach-O二进制文件中
 ## Tweak.xm
 tweak代码的编写，也可拆分为多个文件，这里是hook业务逻辑编写的地方
 
-## 思路或者遇到的问题
+    AppDelegate（监控网络请求和日志打印）
+    - (BOOL)application:(id)arg1 didFinishLaunchingWithOptions:(id)arg2;
+
+    TDDownloadListViewCell (添加云播按钮和获取当前资源的下载链接发送通知)
+    - (void)refreshUI:(id)arg1;
+    - (void)updateUI:(id)arg1;
+    - (void)onVipBtnClick:(id)arg1;
+
+    CFYHomePageViewController（点击cell创建下载任务）
+    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+
+    TDSlideDownloadListVC (接受通知获取下载链接跳转到自定义播放器的页面)
+    -(void)getClickYBBtnNotification:(NSNotification *) notification;
+    
+    XL_TabBarController (添加最新电影的页面)
+    - (void)viewDidAppear:(BOOL)animated;
+    
+
+## 未解决的问题和思路
+
+ * 找到点击下载的按钮，也通过lldb动态调试了下载的过程，打印分析了寄存器和内存中的值，但是找不到想要的东西
+ * 通过wireshark抓取到下载过程中的协议传输过程，看到大概过程是通过TCP建立连接，然后通过UDP去传输对应的数据，但是数据是乱码和加密，暂时也没有好的方法解决
+ * 开发过程中主要还是通过cycript和log分析属性值和方法调用
+ * 开发过程中处理的细节比较多，暂时不记得了，后续想到再添加
+
 
 
 
